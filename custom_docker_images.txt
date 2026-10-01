@@ -1,0 +1,274 @@
+Custom Docker Image:
+        A custom Docker image is an image that you build yourself for your own application instead of using an existing image such as nginx, node, or python.
+
+The basic process is:
+
+Your Application
+      ↓
+ Dockerfile
+      ↓
+docker build
+      ↓
+Custom Docker Image
+      ↓
+docker run
+      ↓
+Container
+
+
+Command to memorise :
+
+# Build
+docker build -t myapp .
+
+# List images
+docker images
+
+# Run
+docker run --name my-container myapp
+
+# List containers
+docker ps -a
+
+# View logs
+docker logs my-container
+
+# Remove container
+docker rm my-container
+
+# Remove image
+docker rmi myapp
+
+
+
+
+
+
+1. Create a project
+For example, create:
+
+my-app/
+├── Dockerfile
+└── app.py
+
+app.py:
+
+print("Hello from Docker!")
+
+2. Create a Dockerfile:
+Inside the my-app folder, create a file named exactly:
+
+Dockerfile
+
+Put this inside:
+
+FROM python:3.12
+
+WORKDIR /app
+
+COPY app.py .
+
+CMD ["python", "app.py"]
+
+What does each line do?
+FROM python:3.12
+
+Uses the official Python 3.12 image as the base.
+
+WORKDIR /app
+
+Sets /app as the working directory inside the container.
+
+COPY app.py .
+
+Copies your local app.py into /app inside the image.
+
+CMD ["python", "app.py"]
+
+Tells Docker to run your Python application when the container starts.
+
+
+
+
+
+// for personal use 
+
+3. Build your custom image
+Open PowerShell in the my-app directory:
+
+docker build -t my-python-app .
+
+Here:
+
+docker build
+
+Builds an image.
+
+-t my-python-app
+
+Gives your image the name my-python-app.
+
+.
+
+Means:
+
+Use the current directory as the build context.
+
+You should see Docker executing the Dockerfile instructions.
+
+4. Check your image
+Run:
+
+docker images
+
+You should see something like:
+
+REPOSITORY       TAG       IMAGE ID
+my-python-app    latest    abc123
+
+Your custom image now exists locally.
+
+5. Run your custom image
+docker run --name my-python-container my-python-app
+
+Output:
+
+Hello from Docker!
+
+The relationship is:
+
+Dockerfile
+     ↓
+my-python-app
+     ↓
+my-python-container
+
+Where:
+
+Dockerfile = instructions
+
+Image = packaged application
+
+Container = running instance of the image
+
+
+example for customweb docker :
+
+Custom Web Application Example
+Let's say you have a Flask application:
+
+my-flask-app/
+├── Dockerfile
+├── app.py
+└── requirements.txt
+
+requirements.txt
+Flask
+
+app.py
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello from my custom Docker image!"
+
+app.run(host="0.0.0.0", port=5000)
+
+Dockerfile
+FROM python:3.12
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+
+Build it:
+
+docker build -t my-flask-app .
+
+Run it:
+
+docker run --name flask-container -p 5000:5000 my-flask-app
+
+Then open:
+
+http://localhost:5000
+
+You'll get:
+
+Hello from my custom Docker image!
+
+EXPOSE vs -p
+This is an important distinction.
+
+In the Dockerfile:
+
+EXPOSE 5000
+
+documents that the application uses port 5000.
+
+But it does not publish the port to your computer.
+
+You still need:
+
+docker run -p 5000:5000 my-flask-app
+
+So:
+
+EXPOSE 5000
+        ↓
+Documents container port
+
+-p 5000:5000
+        ↓
+Actually maps host port → container port
+
+Rebuilding Your Image
+If you modify your application, rebuild the image:
+
+docker build -t my-flask-app .
+
+Then recreate the container:
+
+docker rm flask-container
+docker run --name flask-container -p 5000:5000 my-flask-app
+
+The important thing to understand is:
+
+Changing your source code does not automatically change an already-built Docker image.
+
+You normally need to rebuild the image and create a new container.
+
+The Complete Custom Image Workflow
+             Your Code
+                │
+                ↓
+           Dockerfile
+                │
+                ↓
+       docker build -t myapp .
+                │
+                ↓
+         ┌──────────────┐
+         │ Docker Image │
+         │    myapp     │
+         └──────┬───────┘
+                │
+                ↓
+       docker run myapp
+                │
+                ↓
+         ┌──────────────┐
+         │  Container   │
+         │   myapp      │
+         └──────────────┘
+

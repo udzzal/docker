@@ -1,0 +1,192 @@
+Docker Container Lifecycle:
+
+            A Docker container has a lifecycle from creation → running → stopped → restarted → removed.
+
+
+The easiest way to understand it is:
+
+              Docker Image
+                   │
+                   │ docker create
+                   ↓
+              Created
+                   │
+                   │ docker start
+                   ↓
+               Running
+              ↙         ↘
+     docker stop       docker restart
+          ↓                  │
+       Stopped ←─────────────┘
+          │
+          │ docker start
+          ↓
+       Running
+          │
+          │ docker rm
+          ↓
+       Removed
+
+1. Image
+First, we need a Docker image.
+
+For example:
+
+        docker pull nginx
+
+Now WE have the nginx image.
+
+     Image
+        ↓
+     nginx
+
+An image is not a container. It is the template used to create containers.
+
+2. Create a Container:
+
+We can create a container without starting it:
+
+        docker create --name my-nginx nginx
+
+Check it:
+
+    docker ps -a
+
+We will see:
+
+    my-nginx    nginx    Created
+
+The container exists, but it isn't running yet.
+
+3. Start the Container
+
+    docker start my-nginx
+
+Now:
+
+my-nginx
+   ↓
+Running
+
+Check:
+
+    docker ps
+
+4. Stop the Container
+
+        docker stop my-nginx
+
+The container stops, but it is not deleted.
+
+We can verify:
+
+        docker ps -a
+
+It will show something like:
+
+        my-nginx    nginx    Exited
+
+We can start it again:
+
+    docker start my-nginx
+
+5. Restart the Container
+
+Instead of stopping and starting manually:
+
+    docker restart my-nginx
+
+This essentially does:
+
+Running
+   ↓
+Stopped
+   ↓
+Running
+
+6. Remove the Container
+
+When we no longer need the container:
+
+    docker rm my-nginx
+
+Now the container is gone.
+
+Container
+    ↓
+Removed
+
+Important: Removing a container does not necessarily remove the image.
+
+We nginx image can still exist:
+
+    docker images
+
+You can create another container from it later.
+
+docker run vs docker create:
+
+This is an important distinction.
+
+        docker create --name my-nginx nginx
+        docker create
+
+Creates the container but does not start it.
+
+        docker start
+        docker start my-nginx
+
+Starts an existing container.
+
+        docker run
+        docker run --name my-nginx nginx
+
+docker run basically creates + starts a new container.
+
+So:
+
+docker create
+      ↓
+   Created
+      ↓
+docker start
+      ↓
+   Running
+
+Whereas:
+
+docker run
+    ↓
+Created
+    ↓
+Running
+
+Complete Example
+Let's go through the lifecycle:
+
+docker pull nginx
+
+Create
+docker create --name my-nginx nginx
+
+Start
+docker start my-nginx
+
+Check
+docker ps
+
+Stop
+docker stop my-nginx
+
+Start again
+docker start my-nginx
+
+Restart
+docker restart my-nginx
+
+Stop
+docker stop my-nginx
+
+Remove
+docker rm my-nginx
+

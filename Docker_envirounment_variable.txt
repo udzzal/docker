@@ -1,0 +1,96 @@
+ Environment Variables:
+                An environment variable is a value that your application can read from its environment.
+
+They are commonly used for:
+
+Database configuration
+
+API URLs
+
+Application settings
+
+Credentials/secrets
+
+Development/production configuration
+
+For example:
+
+        DATABASE_HOST=localhost
+        DATABASE_USER=admin
+        DATABASE_PASSWORD=password
+
+Instead of hard-coding these values directly into your application, you can provide them when starting the container.
+
+Passing an environment variable with -e
+Use:
+
+        docker run -e VARIABLE=value image
+
+Example:
+
+        docker run --name my-app -e APP_ENV=production myapp
+
+Inside the container:
+
+    APP_ENV=production
+
+we application can read that value.
+
+Multiple environment variables
+
+we can provide multiple -e options:
+
+docker run \
+  --name my-app \
+  -e APP_ENV=production \
+  -e DATABASE_HOST=database \
+  -e DATABASE_PORT=5432 \
+  myapp
+
+Now the container has:
+
+APP_ENV=production
+DATABASE_HOST=database
+DATABASE_PORT=5432
+
+
+Checking Environment Variables
+we can see the variables inside a running container:
+
+docker exec my-app env
+
+Or:
+
+docker exec my-app printenv
+
+we can also check a specific variable:
+
+docker exec my-app printenv APP_ENV
+
+Output:
+
+production
+
+
+Using an .env file
+
+If we have many environment variables, putting them all into the command becomes inconvenient.
+
+we can create a file:
+
+.env
+
+For example:
+
+APP_ENV=development
+DATABASE_HOST=database
+DATABASE_PORT=5432
+DATABASE_USER=admin
+DATABASE_PASSWORD=password
+
+Then:
+
+docker run --env-file .env myapp
+
+Docker loads the variables from the file.
+

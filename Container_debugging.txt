@@ -1,0 +1,241 @@
+When a container mis behave these are tool that tell us 
+why -logs,exec,inspect,stats and a real troubleshooting workflow
+
+
+Docker Container Debugging:
+                    Docker container debugging means finding out why a container is not starting, crashing, behaving incorrectly, or unable to communicate with another service.
+
+A good debugging workflow is:
+
+Container problem
+      ↓
+1. Check status
+      ↓
+2. Check logs
+      ↓
+3. Inspect container
+      ↓
+4. Enter the container
+      ↓
+5. Check ports/network
+      ↓
+6. Check resources/processes
+
+The most useful debugging commands:
+
+        If you're learning Docker, memorize these first:
+
+            docker ps -a
+            docker logs <container>
+            docker inspect <container>
+            docker exec -it <container> sh
+            docker top <container>
+            docker port <container>
+            docker network inspect <network>
+            docker stats
+
+
+
+1. Check the container status
+
+First:
+
+docker ps
+
+This shows running containers.
+
+To see stopped containers too:
+
+docker ps -a
+
+Example:
+
+CONTAINER ID   IMAGE   STATUS
+abc123         nginx   Exited (1)
+
+Exited (1) tells you that the container stopped with an error.
+
+2. Check container logs
+This is usually the first thing you should check when a container fails.
+
+docker logs my-container
+
+For example:
+
+docker logs my-nginx
+
+Follow the logs in real time:
+
+docker logs -f my-container
+
+You can also see only recent logs:
+
+docker logs --tail 100 my-container
+
+Example
+Suppose:
+
+docker ps -a
+
+shows:
+
+my-app   Exited (1)
+
+Run:
+
+docker logs my-app
+
+You might discover:
+
+Error: Cannot connect to database
+
+Now you know the problem is probably related to the database connection rather than Docker itself.
+
+3. Inspect the container
+Use:
+
+docker inspect my-container
+
+This gives detailed information about the container, including:
+
+Environment variables
+
+IP address
+
+Network
+
+Mounted volumes
+
+Port configuration
+
+Container state
+
+Startup command
+
+Image information
+
+For example:
+
+docker inspect my-nginx
+
+You can also check its IP:
+
+docker inspect -f '{{.NetworkSettings.IPAddress}}' my-container
+
+4. Enter the running container
+Sometimes you need to look inside the container.
+
+For Linux-based containers:
+
+docker exec -it my-container bash
+
+If bash isn't available:
+
+docker exec -it my-container sh
+
+Once inside:
+
+ls
+
+Check the current directory:
+
+pwd
+
+Check environment variables:
+
+env
+
+Check running processes:
+
+ps
+
+Exit:
+
+exit
+
+5. Check the container's processes
+You can check processes without entering the container:
+
+docker top my-container
+
+For example:
+
+UID    PID    COMMAND
+root   123    python app.py
+
+This helps determine whether your application process is actually running.
+
+6. Check port mapping
+Run:
+
+docker ps
+
+You might see:
+
+PORTS
+0.0.0.0:8080->80/tcp
+
+This means:
+
+Your computer                Container
+
+localhost:8080  ─────────→  port 80
+
+If your application isn't accessible, check whether the correct port was published.
+
+You can also use:
+
+docker port my-container
+
+7. Check network connectivity
+List Docker networks:
+
+docker network ls
+
+Inspect a network:
+
+docker network inspect my-network
+
+This is especially useful when you have multiple containers.
+
+For example:
+
+Backend
+   ↓
+PostgreSQL
+
+If the backend cannot connect to PostgreSQL, check whether both containers are connected to the same Docker network.
+
+8. Check environment variables
+A very common source of container problems is incorrect environment configuration.
+
+You can inspect the container:
+
+docker inspect my-container
+
+Or, if it's running:
+
+docker exec my-container env
+
+For example, your application might require:
+
+DATABASE_HOST=database
+DATABASE_USER=admin
+DATABASE_PASSWORD=password
+
+If DATABASE_HOST is wrong, the application may fail to connect.
+
+9. Check resource usage
+If your container is slow or getting killed, check:
+
+docker stats
+
+You'll see things such as:
+
+CONTAINER     CPU %    MEM USAGE
+my-app        25%      250MiB
+database      10%      500MiB
+
+This helps identify CPU or memory problems.
+
+

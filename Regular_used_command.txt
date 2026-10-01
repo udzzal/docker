@@ -1,0 +1,55 @@
+
+
+Important Docker Commands
+
+These are the commands we should learn first.
+
+
+
+Check Docker version:
+
+        docker --version
+
+See Docker images:
+
+
+    docker images
+
+See running containers:
+
+    docker ps
+
+See all containers:
+    docker ps -a
+
+Download an image:
+
+    docker pull nginx
+
+Run a container:
+
+    docker run nginx
+
+Stop a container:
+
+    docker stop <container>
+
+Start a stopped container:
+    docker start <container>
+
+Remove a container:
+
+    docker rm <container>
+
+Remove an image:
+
+    docker rmi <image>
+
+See container logs:
+
+    docker logs <container>
+
+Enter a running container:
+
+    docker exec -it <container> bash
+

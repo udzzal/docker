@@ -1,0 +1,23 @@
+Docker vs Virtual Machine:
+
+            A Virtual Machine (VM) usually contains a complete guest operating system.
+
+Computer
+   │
+   └── Virtual Machine
+          │
+          ├── Operating System
+          └── Application
+
+Docker containers generally share the host operating system's kernel:
+
+Computer
+   │
+   └── Docker Engine
+          │
+          ├── Container → App
+          ├── Container → App
+          └── Container → App
+
+Because of this, containers are generally more lightweight than full virtual machines.
+

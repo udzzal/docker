@@ -1,0 +1,32 @@
+The Docker workflow:
+
+
+The basic Docker workflow is:
+
+                 Dockerfile
+                     │
+                     │ docker build
+                     ↓
+                Docker Image
+                     │
+                     │ docker run
+                     ↓
+              Docker Container
+                     │
+                     ↓
+                Application
+
+For multiple services:
+
+                 compose.yaml
+                      │
+                      ↓
+              Docker Compose
+                      │
+        ┌─────────────┼─────────────┐
+        ↓             ↓             ↓
+    Frontend       Backend      PostgreSQL
+    Container      Container     Container
+
+
+    

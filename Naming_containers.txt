@@ -1,0 +1,35 @@
+Naming a Docker Container:
+        We can give a Docker container a custom name using the --name option.
+
+Syntax:
+    docker run --name <container-name> <image-name>
+
+Example:
+    docker run --name my-nginx nginx
+
+Now the container is named my-nginx.
+
+We can verify it with:
+
+    docker ps
+
+We will see something like:
+
+CONTAINER ID   IMAGE   COMMAND                  NAMES
+abc123         nginx   "/docker-entrypoint..."  my-nginx
+
+With a port
+
+For example:
+
+    docker run --name my-nginx -p 8080:80 nginx
+
+This means:
+
+    --name my-nginx → name the container my-nginx
+
+    -p 8080:80 → map your computer's port 8080 to container port 80
+
+    nginx → use the nginx image
+
+    

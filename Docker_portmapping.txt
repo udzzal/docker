@@ -7,25 +7,41 @@ Port Mapping:
         
 
 
-Suppose your application runs on port 3000 inside the container.
+Port mapping connects a port on your computer (host) to a port inside the container.
 
-we want to access it from your computer using port 8080.
+Basic syntax
+docker run -p HOST_PORT:CONTAINER_PORT IMAGE
 
-we can do:
+For example:
 
-      docker run -p 8080:3000 myapp
+docker run --name my-nginx -p 8080:80 nginx
 
-The format is:
- 
--p HOST_PORT:CONTAINER_PORT
+Here:
 
-So:
+Your Computer                    Docker Container
+──────────────                   ─────────────────
+localhost:8080  ──────────────→  port 80
 
-Our computer                 Container
-
-localhost:8080  ───────────→  port 3000
-
-Then we  can access:
+So when we open:
 
 http://localhost:8080
+
+the request is forwarded to port 80 inside the Nginx container.
+
+Remember this
+-p 8080:80
+   │    │
+   │    └── Container port
+   └─────── Host port
+
+
+
+Another example: Node.js
+If your Node.js application listens on port 3000:
+
+docker run --name node-app -p 3000:3000 node-app
+
+Then access:
+
+http://localhost:3000
 
