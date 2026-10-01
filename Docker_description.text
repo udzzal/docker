@@ -1,0 +1,60 @@
+
+
+What is Docker:
+
+            Docker is a containerization platfrom where docker packages our application and its 
+            dependencies together so it can run consistently on different machine
+
+            For example, suppose you build a Python application. Your application might need:
+
+            Python 3.12
+
+            Django
+
+            PostgreSQL
+
+            Specific Python packages
+
+            Environment variables
+
+            Configuration files
+
+
+        Normally, another developer may have different versions installed, causing:
+
+        "It works on my machine, but it doesn't work on yours."
+
+        Docker helps solve this problem by putting the application and its required environment into a container.
+
+
+What is a Container?
+A container is an isolated environment where your application runs.
+
+For example:
+
+Computer
+   │
+   └── Docker
+        │
+        ├── Container 1
+        │    └── Python Application
+        │
+        ├── Container 2
+        │    └── PostgreSQL
+        │
+        └── Container 3
+             └── Redis
+
+Each container can run a different service.
+
+
+If we are learning Docker, understand these four first:
+
+Dockerfile
+    ↓
+Image
+    ↓
+Container
+    ↓
+Application
+

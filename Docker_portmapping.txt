@@ -1,0 +1,31 @@
+Port Mapping:
+
+            Port mapping in Docker (also known as port publishing or port forwarding) bridges
+             network traffic between  our host machine (our physical computer or server) 
+            and an isolated Docker container.
+
+        
+
+
+Suppose your application runs on port 3000 inside the container.
+
+we want to access it from your computer using port 8080.
+
+we can do:
+
+      docker run -p 8080:3000 myapp
+
+The format is:
+ 
+-p HOST_PORT:CONTAINER_PORT
+
+So:
+
+Our computer                 Container
+
+localhost:8080  ───────────→  port 3000
+
+Then we  can access:
+
+http://localhost:8080
+

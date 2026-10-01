@@ -1,0 +1,25 @@
+Docker Volume :
+        Containers are designed to be replaceable. If you have important data, you usually don't want that data to disappear when a container is removed.
+
+
+That's where volumes come in.
+
+For example:
+
+docker volume create mydata
+
+Then:
+
+docker run -v mydata:/data myapp
+
+The volume stores data independently from the container.
+
+A common example is a database:
+
+PostgreSQL Container
+        │
+        ↓
+    Docker Volume
+        │
+        ↓
+     Database Data

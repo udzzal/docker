@@ -1,0 +1,16 @@
+ Docker Image:
+
+        A Docker image is a packaged template used to create containers.
+
+
+
+WE create an image from a Dockerfile:
+
+                    docker build -t myapp .
+
+                    myapp is the name of image 
+
+                    
+
+
+

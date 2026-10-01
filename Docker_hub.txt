@@ -1,0 +1,17 @@
+ Docker Hub:
+
+
+            Docker Hub is a registry where Docker images can be stored and shared.
+
+
+For example:
+
+        docker pull nginx
+
+
+This downloads the Nginx image.
+
+Then we can run it:
+
+docker run nginx
+

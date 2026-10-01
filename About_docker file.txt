@@ -1,0 +1,31 @@
+Dockerfile :
+        A Dockerfile contains instructions for creating a Docker image.
+
+
+        Example with python :
+
+            FROM python:3.12
+
+            WORKDIR /app
+
+            COPY requirements.txt .
+
+            RUN pip install -r requirements.txt
+
+            COPY . .
+
+            CMD ["python", "app.py"]
+
+
+What these commands mean:
+
+FROM → chooses the base image
+
+WORKDIR → sets the working directory
+
+COPY → copies files into the image
+
+RUN → runs a command while building the image
+
+CMD → specifies the default command when the container starts
+

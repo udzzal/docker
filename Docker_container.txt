@@ -1,0 +1,26 @@
+ Docker Container
+A container is a running instance of an image.
+
+For example:
+
+            docker run myapp
+
+Docker takes the myapp image and creates a running container from it.
+
+
+Think of it like:
+
+        Image = blueprint
+        Container = actual running thing created from the blueprint
+
+
+
+we can create multiple containers from the same image.
+
+             myapp Image
+                  │
+        ┌─────────┼─────────┐
+        ↓         ↓         ↓
+   Container 1 Container 2 Container 3
+
+   
